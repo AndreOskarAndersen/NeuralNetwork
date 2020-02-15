@@ -19,20 +19,20 @@ class HiddenLayer:
             
         self.a = self.a.reshape((-1, 1))
         
-    def predict(self, input_weights, input_a):
+    def feedforward(self, input_weights, input_a):
         for i in range(self.dimensions):
-            self.neurons[i][0].predict(input_weights.weights[i], input_a)
-            
+            self.neurons[i][0].feedforward(input_weights.weights[i], input_a)
+        
         self.a = []
         for neuron in self.neurons:
             self.a = np.append(self.a, neuron[0].a)
             
         self.a = self.a.reshape((-1, 1))
         
-    def predict1(self, input_weights, input_a):
+    def predict(self, input_weights, input_a):
         for i in range(self.dimensions):
             self.neurons[i][0].predict(input_weights.weights[i], input_a)
-            
+        
         self.a = []
         for neuron in self.neurons:
             self.a = np.append(self.a, neuron[0].a)

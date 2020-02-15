@@ -4,8 +4,7 @@ class Neuron:
     def __init__(self):
         self.z = 0
         self.a = 0
-        #self.b = np.random.rand()
-        self.b = 1
+        self.b = np.random.rand()
         self.grad = 0
         
     def sigmoid(self, x):
@@ -13,6 +12,10 @@ class Neuron:
     
     def sigmoid_derived(self, x):
         return self.sigmoid(x) * (1 - self.sigmoid(x))
+    
+    def feedforward(self, input_weights, input_a):
+        self.z = np.matmul(input_weights, input_a) + self.b
+        self.a = self.sigmoid(self.z)
     
     def predict(self, input_weights, input_a):
         self.z = np.matmul(input_weights, input_a) + self.b
