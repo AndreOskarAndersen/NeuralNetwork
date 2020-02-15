@@ -22,3 +22,9 @@ class InputLayer:
         
         for i in range(self.dimensions):
             self.neurons[i][0].a = x[i]
+            
+    def predict1(self, x):
+        self.a = np.array(x).reshape((-1, 1))
+        
+        for i in range(self.dimensions):
+            self.neurons[i][0].a = x[i]

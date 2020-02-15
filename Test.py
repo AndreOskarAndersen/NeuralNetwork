@@ -2,38 +2,39 @@ import numpy as np
 from NeuralNetwork import NeuralNetwork
 import random
 
+random.seed(1)
+
 model = NeuralNetwork(2)
 model.add_layer(2)
 model.add_layer(1)
 
-data_1 = np.array([0, 1, 1]).reshape((1, -1))
+X = np.array([[0, 1]]).reshape((1, -1))
+y = np.array([[1]]).reshape((1, -1))
 
-data_2 = np.array([1, 0, 1]).reshape((1, -1))
+print("Generating data...")
 
-data_3 = np.array([0, 0, 0]).reshape((1, -1))
-
-data_4 = np.array([1, 1, 0]).reshape((1, -1))
-
-data = np.array(data_1).reshape((1, -1))
-
-for i in range(100):
+for i in range(1):
     a = random.randint(0, 3)
+    
     if (a == 0):
-        data = np.concatenate((data, data_1), axis = 0)
+        X = np.concatenate((X, [[0, 1]]), axis = 0)
+        y = np.concatenate((y, [[1]]), axis = 0)
     elif (a == 1):
-        data = np.concatenate((data, data_2), axis = 0)
+        X = np.concatenate((X, [[1, 0]]), axis = 0)
+        y = np.concatenate((y, [[1]]), axis = 0)
     elif (a == 2):
-        data = np.concatenate((data, data_3), axis = 0)
+        X = np.concatenate((X, [[0, 0]]), axis = 0)
+        y = np.concatenate((y, [[0]]), axis = 0)
     elif (a == 3):
-        data = np.concatenate((data, data_4), axis = 0)
+        X = np.concatenate((X, [[1, 1]]), axis = 0)
+        y = np.concatenate((y, [[0]]), axis = 0)
 
-X = data[:, :2]
-y = data[:, 2].reshape((-1, 1))
+print("Fitting...")
 
-model.train(X, y, 100, learning_rate = 1.0)
+model.train(X, y, 1, learning_rate = 1.0)
 
-
-print(model.predict(data_1[0][:2]))
-print(model.predict(data_2[0][:2]))
-print(model.predict(data_3[0][:2]))
-print(model.predict(data_4[0][:2]))
+print("Predictions:")
+print(model.predict1([0, 1]))
+#print(model.predict1([1, 0]))
+#print(model.predict1([0, 0]))
+#print(model.predict1([1, 1]))

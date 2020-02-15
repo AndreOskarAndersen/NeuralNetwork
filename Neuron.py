@@ -1,10 +1,11 @@
 import numpy as np
 
 class Neuron:
-    def __init__(self, input_weights, input_a):
+    def __init__(self):
         self.z = 0
         self.a = 0
-        self.b = np.random.rand()
+        #self.b = np.random.rand()
+        self.b = 1
         self.grad = 0
         
     def sigmoid(self, x):

@@ -3,6 +3,8 @@ from HiddenLayer import HiddenLayer
 from InputLayer import InputLayer
 from Edges import Edges
 
+np.random.seed(1)
+
 class NeuralNetwork:
     def __init__(self, input_dimensions):
         self.n_layers = 1
@@ -23,26 +25,40 @@ class NeuralNetwork:
             for x, _t in zip(X, t):
                 # Forwardpropagation
                 prediction = self.predict(x)
-                err = self._find_error(prediction, _t)[0][0]
+                #err = self._find_error(prediction, _t)[0][0]
                 
                 # Backpropagation
                 for l in reversed(range(1, self.n_layers)): # Runs through each layer of weights (except input layer)
-                    for k in range(self.layers[l - 1].dimensions): # Runs through each node of layer l - 1
-                        for j in range(self.layers[l].dimensions): # Runs through each node of layer l
-                            if (l == self.n_layers - 1): # If layer l is the output layer
-                                self.layers[l].neurons[j][0].grad = 2 * (self.layers[l].neurons[j][0].a - _t[j])
-                                self.weights[l - 1].weights[j, k] -= 1/len(X) * self.layers[l - 1].a[k][0] * self.layers[l].neurons[j][0].sigmoid_derived(self.layers[l].neurons[j][0].z) * self.layers[l].neurons[j][0].grad
-                                self.layers[l].neurons[j][0].b -= 1/len(X) * self.layers[l].neurons[j][0].sigmoid_derived(self.layers[l].neurons[j][0].z) * self.layers[l].neurons[j][0].grad
-                            else:
+                    for j in range(self.layers[l].dimensions): # Runs through each node of layer l
+                        if (l == self.n_layers - 1): # If layer l is the output layer
+                            self.layers[l].neurons[j][0].grad = 2 * (self.layers[l].neurons[j][0].a - _t[j])
+                            print("Grad: " + str(self.layers[l].neurons[j][0].grad))
+                            
+                            for k in range(self.layers[l - 1].dimensions): 
+                                self.weights[l - 1].weights[j, k] -= learning_rate * self.layers[l - 1].a[k][0] * self.layers[l].neurons[j][0].sigmoid_derived(self.layers[l].neurons[j][0].z) * self.layers[l].neurons[j][0].grad
+                                print("Weight: " + str(self.weights[l - 1].weights[j, k]))
+                            
+                            self.layers[l].neurons[j][0].b -= learning_rate * self.layers[l].neurons[j][0].sigmoid_derived(self.layers[l].neurons[j][0].z) * self.layers[l].neurons[j][0].grad
+                        else:
+                            for k in range(self.layers[l - 1].dimensions): 
                                 self.layers[l].neurons[j][0].grad = 0
                                 for _j in range(self.layers[l + 1].dimensions):
-                                    self.layers[l].neurons[j][0].grad += self.weights[l].weights[_j, k] * self.layers[l + 1].neurons[_j][0].sigmoid_derived(self.layers[l + 1].neurons[_j][0].z) * self.layers[l + 1].effect_on_err
-                                self.weights[l - 1].weights[j, k] -= 1/len(X) * self.layers[l - 1].a[k][0] * self.layers[l].neurons[j][0].sigmoid_derived(self.layers[l].neurons[j][0].z) * self.layers[l].neurons[j][0].grad
-                                self.layers[l].neurons[j][0].b -= 1/len(X) * self.layers[l].neurons[j][0].sigmoid_derived(self.layers[l].neurons[j][0].z) * self.layers[l].neurons[j][0].grad
+                                    self.layers[l].neurons[j][0].grad += self.weights[l].weights[_j, k] * self.layers[l + 1].neurons[_j][0].sigmoid_derived(self.layers[l + 1].neurons[_j][0].z) * self.layers[l + 1].neurons[_j][0].grad
+                                
+                                self.weights[l - 1].weights[j, k] -= learning_rate * self.layers[l - 1].a[k][0] * self.layers[l].neurons[j][0].sigmoid_derived(self.layers[l].neurons[j][0].z) * self.layers[l].neurons[j][0].grad
+                            
+                            self.layers[l].neurons[j][0].b -= learning_rate * self.layers[l].neurons[j][0].sigmoid_derived(self.layers[l].neurons[j][0].z) * self.layers[l].neurons[j][0].grad
         
     def predict(self, x):
         self.layers[0].predict(x)
         for l in range(1, self.n_layers):
             self.layers[l].predict(self.weights[l - 1], self.layers[l - 1].a)
+ 
+        return self.layers[self.n_layers - 1].a
+    
+    def predict1(self, x):
+        self.layers[0].predict1(x)
+        for l in range(1, self.n_layers):
+            self.layers[l].predict1(self.weights[l - 1], self.layers[l - 1].a)
  
         return self.layers[self.n_layers - 1].a
