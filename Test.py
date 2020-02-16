@@ -2,38 +2,37 @@ import numpy as np
 from NeuralNetwork import NeuralNetwork
 import random
 
-random.seed(1)
+random.seed(1) # Picking seed for debugging
 
+# Creating model
 model = NeuralNetwork(2)
 model.add_layer(2)
 model.add_layer(1)
 
+# Generating data
 X = np.array([[0, 0]]).reshape((1, -1))
 y = np.array([[0]]).reshape((1, -1))
 
-print("Generating data...")
-
-for i in range(1000):
-    a = random.randint(0, 3)
-    if (a == 0):
+for i in range(10000):
+    rnd = random.randint(0, 3)
+    if (rnd == 0):
         X = np.concatenate((X, [[0, 0]]), axis = 0)
         y = np.concatenate((y, [[0]]), axis = 0)
-    elif (a == 1):
+    elif (rnd == 1):
         X = np.concatenate((X, [[1, 0]]), axis = 0)
         y = np.concatenate((y, [[1]]), axis = 0)
-    elif (a == 2):
+    elif (rnd == 2):
         X = np.concatenate((X, [[0, 1]]), axis = 0)
         y = np.concatenate((y, [[1]]), axis = 0)
-    elif (a == 3):
+    elif (rnd == 3):
         X = np.concatenate((X, [[1, 1]]), axis = 0)
         y = np.concatenate((y, [[0]]), axis = 0)
 
-print("Fitting...")
-model.train(X, y, 10, learning_rate = 1)
+# Training
+model.train(X, y, 1, learning_rate = 1.0)
 
-
-print("PREDICTIONS")
-print(model.predict([0, 0]))
-print(model.predict([1, 1]))
-print(model.predict([1, 0]))
-print(model.predict([0, 1]))
+# Prediction 
+print(model.predict([0, 0])) # Returns 0.03126419
+print(model.predict([1, 1])) # Returns 0.794184
+print(model.predict([1, 0])) # Returns 0.79322682
+print(model.predict([0, 1])) # Returns 0.79121434

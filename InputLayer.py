@@ -11,7 +11,7 @@ class InputLayer:
             
         self.neurons = self.neurons.reshape((-1, 1))
         
-        self.a = []
+        self.a = [] # Collection of the values of all the neurons in the layer
         for neuron in self.neurons:
             self.a = np.append(self.a, neuron[0].a)
             
@@ -24,7 +24,4 @@ class InputLayer:
             self.neurons[i][0].a = x[i]
         
     def predict(self, x):
-        self.a = np.array(x).reshape((-1, 1))
-        
-        for i in range(self.dimensions):
-            self.neurons[i][0].a = x[i]
+        self.feedforward(x)
