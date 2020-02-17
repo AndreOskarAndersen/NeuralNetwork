@@ -1,5 +1,4 @@
 import numpy as np
-from Neuron import Neuron
 
 """ Class for a hidden layer and the output layer """
 class HiddenLayer:

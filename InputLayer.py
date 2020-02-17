@@ -1,5 +1,4 @@
 import numpy as np
-from InputNeuron import InputNeuron
 
 class InputLayer:
     def __init__(self, dimensions):
