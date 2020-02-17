@@ -3,30 +3,13 @@ from Neuron import Neuron
 
 """ Class for a hidden layer and the output layer """
 class HiddenLayer:
-    def __init__(self, dimensions):
+    def __init__(self, dimensions, dim_from):
         self.dimensions = dimensions
-        
-        self.neurons = []
-        for _ in range(dimensions):
-            self.neurons = np.append(self.neurons, Neuron())
-            
-        self.neurons = self.neurons.reshape((-1, 1))
-        
-        self.a = [] # Collection of the values of all the neurons in the layer
-        for neuron in self.neurons:
-            self.a = np.append(self.a, neuron[0].a)
-            
-        self.a = self.a.reshape((-1, 1))
+        self.a = np.zeros((dimensions, 1))
+        self.b = np.random.rand(dimensions, 1)
+        self.grad = np.zeros((dimensions, 1))
+        self.weights = np.random.rand(dimensions, dim_from)
         
     def feedforward(self, input_weights, input_a):
         for i in range(self.dimensions):
-            self.neurons[i][0].feedforward(input_weights.weights[i], input_a)
-        
-        self.a = [] # Collection of the values of all the neurons in the layer
-        for neuron in self.neurons:
-            self.a = np.append(self.a, neuron[0].a)
-            
-        self.a = self.a.reshape((-1, 1))
-        
-    def predict(self, input_weights, input_a):
-        self.feedforward(input_weights, input_a)
+            self.a[i] = 1/(1 + np.exp(-1 * (np.matmul(input_weights[i], input_a) + self.b[i])))

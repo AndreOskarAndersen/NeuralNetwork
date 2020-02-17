@@ -29,7 +29,7 @@ for i in range(10000):
         y = np.concatenate((y, [[0]]), axis = 0)
 
 # Training
-model.train(X, y, 1, learning_rate = 1.0)
+model.train(X, y, 100, learning_rate = 1.0)
 
 # Prediction 
 print(model.predict([0, 0])) # Returns 0.03126419
