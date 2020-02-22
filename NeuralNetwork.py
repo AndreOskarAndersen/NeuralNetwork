@@ -46,7 +46,7 @@ class NeuralNetwork:
                         for k in range(self.layers[l - 1].dimensions):
                             update_weights(l, j, k)
                         update_bias(l, j)
-                        
+           
             if (epoch % 10 == 0):
                 print("Epoch {} done".format(epoch))
                             

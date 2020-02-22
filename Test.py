@@ -7,29 +7,29 @@ import random
 # Creating model
 model = NeuralNetwork(2)
 model.add_layer(2)
-model.add_layer(1)
+model.add_layer(2)
 
 # Generating data
 X = np.array([[0, 0]]).reshape((1, -1))
-y = np.array([[0]]).reshape((1, -1))
+y = np.array([[0, 0]]).reshape((1, -1))
 
 for i in range(1000):
     rnd = random.randint(0, 3)
     if (rnd == 0):
         X = np.concatenate((X, [[0, 0]]), axis = 0)
-        y = np.concatenate((y, [[0]]), axis = 0)
+        y = np.concatenate((y, [[0, 0]]), axis = 0)
     elif (rnd == 1):
         X = np.concatenate((X, [[1, 0]]), axis = 0)
-        y = np.concatenate((y, [[1]]), axis = 0)
+        y = np.concatenate((y, [[1, 1]]), axis = 0)
     elif (rnd == 2):
         X = np.concatenate((X, [[0, 1]]), axis = 0)
-        y = np.concatenate((y, [[1]]), axis = 0)
+        y = np.concatenate((y, [[1, 1]]), axis = 0)
     elif (rnd == 3):
         X = np.concatenate((X, [[1, 1]]), axis = 0)
-        y = np.concatenate((y, [[0]]), axis = 0)
+        y = np.concatenate((y, [[0, 0]]), axis = 0)
 
 # Training
-model.train(X, y, 1000, learning_rate = 0.1)
+model.train(X, y, 10, learning_rate = 0.1)
 
 # Prediction 
 print(model.predict([0, 0])) # Returns 0.02670295
