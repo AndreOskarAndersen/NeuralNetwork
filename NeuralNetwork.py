@@ -16,6 +16,9 @@ class NeuralNetwork:
     @staticmethod
     def sigmoid_derived(x):
         return np.multiply(x, 1.0 - x)
+    
+    def find_error(self, prediction, true_value):
+        return np.mean(np.power(np.subtract(prediction, true_value), 2))
         
     def train(self, X, t, n_epoch, learning_rate = 1.0):
         def update_weights(l, j, k):
@@ -48,7 +51,7 @@ class NeuralNetwork:
                         update_bias(l, j)
            
             if (epoch % 10 == 0):
-                print("Epoch {} done".format(epoch))
+                print("Epoch {} done. Error: {}".format(epoch, self.find_error(self.predict(x), _t)))          
                             
     def _forwardprop(self, x):
         self.layers[0].feedforward(x)
