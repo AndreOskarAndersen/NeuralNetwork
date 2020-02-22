@@ -2,8 +2,6 @@ import numpy as np
 from HiddenLayer import HiddenLayer
 from InputLayer import InputLayer
 
-#np.random.seed(1) # Picking seed for debugging
-
 class NeuralNetwork:
     def __init__(self, input_dimensions):
         self.n_layers = 1

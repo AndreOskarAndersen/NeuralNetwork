@@ -3,9 +3,9 @@ from NeuralNetwork import NeuralNetwork
 import random
 
 # Creating model
-model = NeuralNetwork(2)
-model.add_layer(2)
-model.add_layer(1)
+model = NeuralNetwork(2) # Creates an input layer with 2 input nodes
+model.add_layer(2) # Creates a hidden layer with 2 input nodes
+model.add_layer(1) # Creates an output layer with 1 output node
 
 # Constants
 N_EPOCHS = 100
@@ -35,7 +35,7 @@ for i in range(N_SAMPLES):
 model.train(X, y, N_EPOCHS, learning_rate = LEARNING_RATE)
 
 # Predictions
-print(model.predict([0, 0])) # Should be 0
-print(model.predict([1, 1])) # Should be 0
-print(model.predict([1, 0])) # Should be 1
-print(model.predict([0, 1])) # Should be 1
+print(model.predict([0, 0])) # Should (hopefully) be 0
+print(model.predict([1, 1])) # Should (hopefully) be 0
+print(model.predict([1, 0])) # Should (hopefully) be 1
+print(model.predict([0, 1])) # Should (hopefully) be 1
