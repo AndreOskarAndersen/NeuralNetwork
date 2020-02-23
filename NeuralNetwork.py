@@ -41,7 +41,6 @@ class NeuralNetwork:
                             for _j in range(self.layers[l + 1].dimensions):
                                 self.layers[l].grad[j] += 1/2 * self.layers[l + 1].weights[_j, j] * NeuralNetwork.sigmoid_derived(self.layers[l + 1].a[_j]) * self.layers[l + 1].grad[_j]
                                     
-                                    
                 for l in reversed(range(1, self.n_layers)):
                     for j in range(self.layers[l].dimensions):
                         for k in range(self.layers[l - 1].dimensions):
