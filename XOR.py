@@ -1,6 +1,8 @@
 import numpy as np
 from NeuralNetwork import NeuralNetwork
 import random
+random.seed(1)
+np.random.seed(1)
 
 # Creating model
 model = NeuralNetwork(2) # Creates an input layer with 2 input nodes
@@ -11,12 +13,13 @@ model.add_layer(1) # Creates an output layer with 1 output node
 N_EPOCHS = 100
 N_SAMPLES = 1000
 LEARNING_RATE = 0.1
+BATCH_SIZE = 1
 
 # Generating data
 X = np.array([[0, 0]]).reshape((1, -1))
 y = np.array([[0]]).reshape((1, -1))
 
-for i in range(N_SAMPLES):
+for i in range(N_SAMPLES - 1):
     rnd = random.randint(0, 3)
     if (rnd == 0):
         X = np.concatenate((X, [[0, 0]]), axis = 0)
@@ -32,7 +35,7 @@ for i in range(N_SAMPLES):
         y = np.concatenate((y, [[0]]), axis = 0)
 
 # Training
-model.train(X, y, N_EPOCHS, learning_rate = LEARNING_RATE)
+model.train(X, y, N_EPOCHS, learning_rate = LEARNING_RATE, batch_size = BATCH_SIZE)
 
 # Predictions
 print(model.predict([0, 0])) # Should (hopefully) be 0
