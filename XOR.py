@@ -13,7 +13,6 @@ model.add_layer(1) # Creates an output layer with 1 output node
 N_EPOCHS = 100
 N_SAMPLES = 1000
 LEARNING_RATE = 0.1
-BATCH_SIZE = 1
 
 # Generating data
 X = np.array([[0, 0]]).reshape((1, -1))
@@ -35,7 +34,7 @@ for i in range(N_SAMPLES - 1):
         y = np.concatenate((y, [[0]]), axis = 0)
 
 # Training
-model.train(X, y, N_EPOCHS, learning_rate = LEARNING_RATE, batch_size = BATCH_SIZE)
+model.fit(X, y, N_EPOCHS, learning_rate = LEARNING_RATE)
 
 # Predictions
 print(model.predict([0, 0])) # Should (hopefully) be 0
