@@ -9,11 +9,10 @@ In the following example, the neural network is being trained on the XOR-problem
 and used for predicting on the same input.
 ================================================================================
 """
+
 import numpy as np
 from NeuralNetwork import NeuralNetwork
 import random
-random.seed(1)
-np.random.seed(1)
 
 # Creating model
 model = NeuralNetwork(2) # Creates an input layer with 2 input nodes
@@ -48,7 +47,7 @@ for i in range(N_SAMPLES - 1):
 model.fit(X, y, N_EPOCHS, learning_rate = LEARNING_RATE)
 
 # Predictions
-print(model.predict([0, 0])) # Should (hopefully) be 0
-print(model.predict([1, 1])) # Should (hopefully) be 0
-print(model.predict([1, 0])) # Should (hopefully) be 1
-print(model.predict([0, 1])) # Should (hopefully) be 1
+print(model.predict([0, 0])) # Should be 0
+print(model.predict([1, 1])) # Should be 0
+print(model.predict([1, 0])) # Should be 1
+print(model.predict([0, 1])) # Should be 1

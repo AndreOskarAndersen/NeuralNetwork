@@ -2,10 +2,9 @@
 ================================================================================================================
                                 NEURAL NETWORK IMPLEMENTATION FROM SCRATCH
 ----------------------------------------------------------------------------------------------------------------
-
 The Following is an implementation of a fully connected neural network only using Python.
 The network supports multiple layers, each with different dimensions. However, the only activationfunction
-supportyed is the sigmoid function, and the only loss function is the mean squared error.
+supported is the sigmoid function, and the only loss function suported is the mean squared error.
 The class has been tested on the XOR-problem.
 All the training data needs to be of 2D shape (both X and Y) - for prediction, the data should be of 1D shape.
 ================================================================================================================
@@ -32,11 +31,12 @@ class NeuralNetwork:
         return np.multiply(x, 1.0 - x)
     
     # Mean squared error
-    def find_error(self, prediction, true_value):
+    @staticmethod
+    def find_error(prediction, true_value):
         return np.mean(np.power(np.subtract(prediction, true_value), 2))
         
     # Fits the network.
-    # Arguments:
+    # Parameters:
     #   X: The input data
     #   Y: The targeted data
     #   n_epoch: The amount of epochs the network should fit for
@@ -72,13 +72,13 @@ class NeuralNetwork:
                         self.layers[l].grad[j] = 0
            
             if (epoch % 10 == 0):
-                print("Epoch {} done. Error: {}".format(epoch, self.find_error(self.predict(x), y)))          
+                print("Epoch {} done. Error: {}".format(epoch, NeuralNetwork.find_error(self.predict(x), y)))
     
     # Forward propogation. Used for fitting                        
     def _forwardprop(self, x):
         self.layers[0].feedforward(x)
         for l in range(1, self.n_layers):
-            self.layers[l].feedforward(self.layers[l].weights, self.layers[l - 1].a)
+            self.layers[l].feedforward(self.layers[l - 1].a)
     
     # Method for predicting.    
     def predict(self, x):
