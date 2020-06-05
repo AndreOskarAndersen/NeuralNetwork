@@ -5,8 +5,8 @@
 
 The following is an exmple on how to use the neural network library in
 NeuralNetwor.py.
-In the following example, the neural network is being trained on the XOR-problem
-and used for predicting on the same input.
+In the following example, the neural network is being trained and tested on the 
+XOR-problem
 ================================================================================
 """
 
