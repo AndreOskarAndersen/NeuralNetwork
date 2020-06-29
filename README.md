@@ -12,7 +12,7 @@ This is an implementation of a fully-connected neural network from scratch in py
 [Inputlayer.py](https://github.com/KeenbitGitHub/NeuralNetwork/blob/master/InputLayer.py) Contains the class of an input layer.
 
 ### Functionality
-Currently, the neural network only supports the sigmoid activationfunction and the squared mean error.
+Currently, the neural network only supports the sigmoid and relu activationfunctions and the squared mean error.
 
 ## User Guide
 ### Requirements
