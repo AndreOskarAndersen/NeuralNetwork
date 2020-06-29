@@ -21,14 +21,17 @@ class NeuralNetwork:
         
     # Method for adding a layer. The last added layer will be used as the output layer of the network.
     # Takes as argument the amount of dimensions of the layer.
-    def add_layer(self, dimensions):
-        self.layers = np.append(self.layers, HiddenLayer(dimensions, self.layers[self.n_layers - 1].dimensions))
+    def add_layer(self, dimensions, activation = "sigmoid"):
+        self.layers = np.append(self.layers, HiddenLayer(dimensions, self.layers[self.n_layers - 1].dimensions, activation))
         self.n_layers += 1
         
-    # Derived sigmoid activationfunction
-    @staticmethod
-    def sigmoid_derived(x):
+    # Derived sigmoid activation function
+    def sigmoid_derived(self, x):
         return np.multiply(x, 1.0 - x)
+    
+    # Derived relu activation function
+    def relu_derived(self, x):
+        return 0 if x <= 0 else 1
     
     # Mean squared error
     @staticmethod
@@ -43,10 +46,16 @@ class NeuralNetwork:
     #   learning_rate: The learning rate.
     def fit(self, X, Y, n_epoch, learning_rate = 1.0):
         def update_weights(l, j, k):
-            self.layers[l].weights[j, k] -= learning_rate * self.layers[l - 1].a[k] * NeuralNetwork.sigmoid_derived(self.layers[l].a[j]) * self.layers[l].grad[j]
+            if (self.layers[l].activation == "sigmoid"):
+                self.layers[l].weights[j, k] -= learning_rate * self.layers[l - 1].a[k] * self.sigmoid_derived(self.layers[l].a[j]) * self.layers[l].grad[j]
+            elif (self.layers[l].activation == "relu"):
+                self.layers[l].weights[j, k] -= learning_rate * self.layers[l - 1].a[k] * self.relu_derived(self.layers[l].a[j]) * self.layers[l].grad[j]
             
         def update_bias(l, j):
-            self.layers[l].b[j] -= learning_rate * NeuralNetwork.sigmoid_derived(self.layers[l].a[j]) * self.layers[l].grad[j]
+            if (self.layers[l].activation == "sigmoid"):
+                self.layers[l].b[j] -= learning_rate * self.sigmoid_derived(self.layers[l].a[j]) * self.layers[l].grad[j]
+            elif (self.layers[l].activation == "relu"):
+                self.layers[l].b[j] -= learning_rate * self.relu_derived(self.layers[l].a[j]) * self.layers[l].grad[j]
         
         for epoch in range(n_epoch):
             for (index, x), y in zip(enumerate(X), Y):
@@ -61,7 +70,10 @@ class NeuralNetwork:
                             self.layers[l].grad[j] += 2 * (self.layers[l].a[j] - y[j])
                         else:
                             for _j in range(self.layers[l + 1].dimensions):
-                                self.layers[l].grad[j] += self.layers[l + 1].weights[_j, j] * NeuralNetwork.sigmoid_derived(self.layers[l + 1].a[_j]) * self.layers[l + 1].grad[_j]
+                                if (self.layers[l].activation == "sigmoid"):
+                                    self.layers[l].grad[j] += self.layers[l + 1].weights[_j, j] * self.sigmoid_derived(self.layers[l + 1].a[_j]) * self.layers[l + 1].grad[_j]
+                                elif (self.layers[l].activation == "relu"):
+                                    self.layers[l].grad[j] += self.layers[l + 1].weights[_j, j] * self.relu_derived(self.layers[l + 1].a[_j]) * self.layers[l + 1].grad[_j]
                 
                 # Adjusting weights
                 for l in reversed(range(1, self.n_layers)):
@@ -73,6 +85,15 @@ class NeuralNetwork:
            
             if (epoch % 10 == 0):
                 print("Epoch {} done. Error: {}".format(epoch, NeuralNetwork.find_error(self.predict(x), y)))
+                
+    # Loads weights into the network
+    # Parameter:
+    #   weights: the weights which should be loaded into the network. Should be of 3d shape.
+    def load_weights(self, weights):
+        for l in range(1, self.n_layers):
+            if (self.layers[l].weights.shape != weights[l - 1].shape):
+                raise Exception("Wrong dimensions given. Expected: {}, Given:{}".format(self.layers[l].weights.shape, weights[l - 1].shape))
+            self.layers[l].weights = weights[l - 1].copy()
     
     # Forward propogation. Used for fitting                        
     def _forwardprop(self, x):

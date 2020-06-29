@@ -16,8 +16,8 @@ import random
 
 # Creating model
 model = NeuralNetwork(2) # Creates an input layer with 2 input nodes
-model.add_layer(2) # Creates a hidden layer with 2 input nodes
-model.add_layer(1) # Creates an output layer with 1 output node
+model.add_layer(2, activation = "sigmoid") # Creates a hidden layer with 2 input nodes
+model.add_layer(1, activation = "sigmoid") # Creates an output layer with 1 output node
 
 # Constants
 N_EPOCHS = 100
