@@ -15,9 +15,9 @@ class HiddenLayer:
     def __init__(self, dimensions, dim_from, activation):
         self.dimensions = dimensions # Amount of dimensions of the layer
         self.a = np.zeros((dimensions, 1)) # Values of the nodes
-        self.b = np.random.uniform(size = (dimensions, 1)) # Bias of each node
+        self.b = np.random.normal(0, 1, (dimensions, 1)) # Bias of each node
         self.grad = np.zeros((dimensions, 1)) # Used for gradient descent
-        self.weights = np.random.uniform(size = (dimensions, dim_from)) # Input weights
+        self.weights = np.random.normal(0, 1, (dimensions, dim_from)) # Input weights
         self.activation = activation # Activation function of the layer
         
     # Sigmoid activation function
