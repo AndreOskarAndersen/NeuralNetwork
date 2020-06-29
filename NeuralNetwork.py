@@ -11,8 +11,8 @@ All the training data needs to be of 2D shape (both X and Y) - for prediction, t
 """
 
 import numpy as np
-from HiddenLayer import HiddenLayer
-from InputLayer import InputLayer
+from .HiddenLayer import HiddenLayer
+from .InputLayer import InputLayer
 
 class NeuralNetwork:
     def __init__(self, input_dimensions):
